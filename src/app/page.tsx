@@ -1,225 +1,133 @@
 'use client';
-import Navbar from "../components/main/navbar";
-import { useState } from "react";
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import LineChart from "@/components/main/charts/linechart";
+import AreaChart from "@/components/main/charts/areachart";
+import BarChart from "@/components/main/charts/barchart"; // Importing ShadCN card component
+import Navbar from "@/components/main/navbaracounts"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Acme, Archivo_Black, Caveat, Bowlby_One } from 'next/font/google';
+import { ChevronDown } from 'lucide-react';
 
-// Correctly load fonts with required 'weight' parameter
 const acme = Acme({ subsets: ['latin'], weight: ['400'] });
 const archivoBlack = Archivo_Black({ subsets: ['latin'], weight: ['400'] });
 const caveat = Caveat({ subsets: ['latin'], weight: ['400', '700'] });
 const bowlbyOne = Bowlby_One({ subsets: ['latin'], weight: ['400'] });
 
-type FAQItemProps = {
-  question: string;
-  answer: string;
-};
-
-function FAQItem({ question, answer }: FAQItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
+const Dashboard = () => {
+  const [selectedChart, setSelectedChart] = useState<"line" | "area" | "bar">("line");
 
   return (
-    <div className="mb-4 border-b">
-      <motion.div
-        className="flex justify-between items-center cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <h3 className="text-lg text-black">{question}</h3>
-        <span className="text-xl text-gray-800">{isOpen ? "▲" : "▼"}</span>
-      </motion.div>
-      {isOpen && <motion.p className="mt-2 text-gray-600" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>{answer}</motion.p>}
-    </div>
-  );
-}
-
-export default function Home() {
-  return (
-    <div>
-      
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
       {/* Navbar */}
-      <Navbar />
-      <div className="min-h-screen bg-white text-black">
-        {/* Hero Section */}
-        <section id="home" className="pt-28 pb-6 bg-white text-center">
-          <div className="max-w-screen-xl mx-auto">
-            <motion.div
-              className="text-xl text-gray-700 pb-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              Introducing Buildify
-            </motion.div>
-            <motion.h1
-              className="text-7xl font-bold text-blue-600 pb-2"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1 }}
-            >
-              <span className={`${caveat.className}`}>Your dream website</span>
-            </motion.h1>
-            <motion.h1
-              className="text-7xl font-bold text-black pb-4"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              <span className={`${caveat.className}`}>just a few clicks away</span>
-            </motion.h1>
-            <motion.p
-              className="text-lg mt-4 text-gray-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              The easiest platform to create your own website without coding.
-            </motion.p>
-            <div className="mt-6">
-              <motion.a
-                href="#features"
-                className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                Get Started
-              </motion.a>
-            </div>
-          </div>
-        </section>
+      <Navbar/>
 
-        {/* Features Section with Scroll-triggered Transition */}
-        <section id="features" className="py-24 bg-white">
-          <div className="max-w-screen-xl mx-auto text-center">
-            <motion.h2
-              className="text-5xl font-semibold text-black"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-            >
-              <span className={`${caveat.className}`}>Features</span>
-            </motion.h2>
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-              {[
-                { title: "Drag & Drop Builder", description: "Easily build websites with our intuitive drag-and-drop builder." },
-                { title: "Customizable Templates", description: "Choose from a variety of professionally designed templates to start your project." },
-                { title: "Responsive Design", description: "Your website will look great on any device, from desktop to mobile." },
-              ].map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="p-6 rounded-lg shadow-md hover:shadow-lg bg-gradient-to-br from-blue-50 via-white to-blue-50"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: index * 0.3 }}
-                >
-                  <h3 className="text-xl font-semibold text-black">{feature.title}</h3>
-                  <p className="mt-4 text-gray-600">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-        {/* Image Section Between Hero and Features */}
-        <section className="py-10 bg-white text-center">
-          <motion.div
-            className="relative w-full max-w-screen-xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <Image
-              src="/images/website-builder.jpg" // Add your relevant image here
-              alt="Website Builder"
-              width={600}
-              height={300}
-              quality={100}
-              className="rounded-lg shadow-md mx-auto"
-            />
-          </motion.div>
-        </section>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto p-6">
+      {/* <h2 className="flex justify-center text-center text-5xl font-bold text-blue-600 mb-4 mt-10"><span className={${caveat.className}}>Accounting ensures </span></h2>
+      <h2 className="flex justify-center text-center text-5xl font-bold text-blue-600 mb-16 mt-2"><span className={${caveat.className} text-black}>financial clarity.</span></h2> */}
+      
+        {/* Welcome and Dropdowns */}
+        <div className=" mb-20 mt-6">
+          <h2 className="text-4xl font-bold text-blue-600 ml-14"><span className={`${caveat.className} text-black`}>Welcome to</span><span className={`${caveat.className}`}> Account<span className="text-black">X</span></span></h2>
+          <div className="flex items-center gap-10 ml-10 mt-10">
+            {/* All Accounts Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-blue-100 text-black hover:bg-blue-300">All Accounts<ChevronDown className="ml-2" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Account 1</DropdownMenuItem>
+                <DropdownMenuItem>Account 2</DropdownMenuItem>
+                <DropdownMenuItem>Account 3</DropdownMenuItem>
+                <DropdownMenuItem>Account 4</DropdownMenuItem>
+                <DropdownMenuItem>Account 5</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-        {/* FAQ Section */}
-        <section id="faq" className="py-16 bg-white">
-          <div className="max-w-screen-xl mx-auto text-center">
-            <motion.h2
-              className="text-5xl font-semibold text-black"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <span className={`${caveat.className}`}>Frequently Asked Questions</span>
-            </motion.h2>
-            <div className="mt-10 max-w-3xl mx-auto font-normal">
-              <FAQItem
-                question="What is Buildify?"
-                answer="Buildify is a platform that allows you to create your dream website easily without any coding knowledge."
-              />
-              <FAQItem
-                question="How does Buildify work?"
-                answer="Using Buildify, you can select customizable templates and utilize the drag-and-drop builder to design your website."
-              />
-              <FAQItem
-                question="Is there a free plan?"
-                answer="Yes, Buildify offers a free plan with basic features. You can upgrade for additional functionalities."
-              />
-              <FAQItem
-                question="What’s included in the Plus plan?"
-                answer="The Plus plan includes advanced templates, priority support, and additional storage."
-              />
-              <FAQItem
-                question="Can I cancel my subscription?"
-                answer="Yes, you can cancel your subscription anytime through your account settings."
-              />
-            </div>
+            {/* Calendar Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-black text-white hover:bg-neutral-700">Calendar<ChevronDown className="ml-2" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <Calendar />
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-        </section>
+        </div>
 
-        {/* Call to Action Section */}
-        <section className="text-center">
-          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-20">
-            <div className="relative isolate overflow-hidden px-6 py-20 text-center sm:rounded-3xl sm:border sm:px-16 sm:shadow-sm bg-gradient-to-br from-blue-100 via-white to-blue-100">
-              <motion.h2
-                className="mx-auto max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 50 }}
-                transition={{ type: "spring", stiffness: 100, damping: 25 }}
-                viewport={{ once: true }}
-              >
-                Start using Build<span className="text-blue-600">ify</span> Now!
-              </motion.h2>
-              <motion.h3
-                className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 50 }}
-                transition={{ type: "spring", stiffness: 100, damping: 25, delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                Buildify makes it easy to create websites without coding.
-              </motion.h3>
-              <div className="mt-8 flex items-center justify-center gap-x-6">
-                <motion.button
-                  className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  Get Started
-                </motion.button>
+        {/* Metrics Section with ShadCN Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mb-8 pt-12">
+          <Card className="bg-gradient-to-tr from-blue-300 to-emerald-50 text-white shadow-lg h-40">
+            <CardHeader>
+              <CardTitle className="text-3xl"><span className={`${caveat.className} text-black`}>Remaining</span></CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-2xl font-semibold text-gray-600">$4,500</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-tr from-blue-300 to-emerald-50 text-white shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-3xl"><span className={`${caveat.className} text-black`}>Income</span></CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-2xl font-semibold text-gray-600">$8,000</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-tr from-blue-300 to-emerald-50 text-white shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-3xl"><span className={`${caveat.className} text-black`}>Expenses</span></CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-2xl font-semibold text-gray-600">$3,500</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Charts Section */}
+        <div className="flex text-center justify-center gap-6 mt-10">
+          {/* Chart Dropdown and Selected Chart */}
+          <div className="w-1/2"> {/* Increased width from 1/3 to 1/2 */}
+            <h3 className="text-5xl font-bold text-blue-600 mb-14 mt-10"><span className={`${caveat.className}`}>Transaction</span></h3>
+            {/* Charts Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-black text-white hover:bg-black">Charts<ChevronDown className="ml-2" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setSelectedChart("line")}>
+                  Line Chart
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedChart("area")}>
+                  Area Chart
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedChart("bar")}>
+                  Bar Chart
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Render Selected Chart */}
+            <div className="mt-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
+              <div className="w-full h-72">
+                {selectedChart === "line" && <LineChart />}
+                {selectedChart === "area" && <AreaChart />}
+                {selectedChart === "bar" && <BarChart />}
               </div>
             </div>
           </div>
-        </section>
-      </div>
+
+          {/* Placeholder for Other Content (Optional) */}
+          <div className="w-1/2"> {/* Adjust this width if necessary */}
+            {/* Additional content can go here */}
+          </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
+
+export default Dashboard;
