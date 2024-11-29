@@ -46,7 +46,7 @@ const NavbarSidebar: React.FC = () => {
                   ></path>
                 </svg>
               </button>
-              <a href="https://flowbite.com" className="flex ms-2 md:me-24">
+              <a href="/" className="flex ms-2 md:me-24">
                 <Box size={40} />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   MI<span className='text-blue-600'>RO</span>
