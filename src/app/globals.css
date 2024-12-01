@@ -43,6 +43,15 @@ body {
     font-weight: 400;
     font-style: normal;
   }
+  /* Hide scrollbar globally */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
   
   
   
