@@ -38,7 +38,7 @@ const FormWithPagination: React.FC = () => {
         <div className="pb-2 bg-gradient-to-b from-gray-50 to-white border-b border-gray-100">
         <div className="flex justify-between text-center px-6 pt-8 border-t border-gray-100">
         Name
-            <div className="space-x-2 -pl-12">
+            <div className="space-x-2">
             <Button variant="outline">B</Button>
             <Button variant="outline">B</Button>
             </div>
