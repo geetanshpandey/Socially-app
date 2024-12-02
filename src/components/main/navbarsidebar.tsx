@@ -1,10 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import { Plus, Minus, Circle } from 'lucide-react';
+import { Plus, Minus, Menu } from 'lucide-react';
 import { Box, Star, Grid, Package } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { Settings, LayoutDashboard, DollarSign,LogOut } from "lucide-react";
+import { Settings, LayoutDashboard, DollarSign,LogOut, ChevronDown } from "lucide-react";
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 const NavbarSidebar: React.FC = () => {
   // State to manage the dropdown visibility
@@ -13,14 +15,17 @@ const NavbarSidebar: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Toggle dropdown visibility
+  const [isOpen, setIsOpen] = useState(false);
+
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setIsOpen(!isOpen);
   };
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  
 
   return (
     <>
@@ -29,59 +34,56 @@ const NavbarSidebar: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
               <a href="/" className="flex ms-2 md:me-24">
-                <LayoutDashboard size={28} className='sm:mr-2 mr-1' />
+                <Package size={28} className='sm:mr-2 mr-1' />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Hud<span className='text-blue-600'>dle</span>
+                  NEX<span className='text-blue-600'>X</span>
                 </span>
               </a>
-              <form className="max-w-md mx-auto sm:ml-64 ml-8">
-                <label 
-                  htmlFor="default-search" 
-                  className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-                >
-                  Search
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="search"
-                    id="default-search"
-                    className="block sm:w-72 w-32 p-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search.."
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="text-white md:block hidden absolute right-2.5 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Search
-                  </button>
-                </div>
-              </form>
             </div>
             <div className="flex items-center">
               <div className="relative">
-                <div className="flex items-center ms-3">
-                  <Link href="/admin">
-                  <Button className='mr-2'>
-                    Login
-                  </Button></Link>
+                <div className="flex items-center ms-3 hover:cursor-pointer mr-6">
+                  <div className="sm:ml-64 ml-1">
+                    {/* Dropdown Button */}
+                    <button
+                      id="dropdownLargeButton"
+                      className="sm:ml-88 ml-12 font-normal text-sm text-gray-700 dark:text-gray-400"
+                      onClick={toggleDropdown}
+                    >
+                      <span className='flex text-md font-semibold'>Option<ChevronDown size={20} className='ml-2 mr-8 hover:cursor-pointer' /></span>
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {isOpen && (
+                      <div
+                        id="dropdownNavbar"
+                        className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 absolute"
+                      >
+                        <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
+                          <li>
+                            <Link
+                              href="/project"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Project
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/billing"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Billing
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
                 </div>
               </div>
             </div>
