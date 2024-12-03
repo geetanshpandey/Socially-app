@@ -2,11 +2,15 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import NavbarSidebar from "@/components/main/navbarsidebar";
 import { toast } from "sonner"; // Import Sonner components
 import Link from "next/link";
-import { randomInt, randomUUID } from "crypto";
+import { Acme, Archivo_Black, Caveat, Bowlby_One } from 'next/font/google';
+
+const acme = Acme({ subsets: ['latin'], weight: ['400'] });
+const archivoBlack = Archivo_Black({ subsets: ['latin'], weight: ['400'] });
+const caveat = Caveat({ subsets: ['latin'], weight: ['400', '700'] });
+const bowlbyOne = Bowlby_One({ subsets: ['latin'], weight: ['400'] });
 
 interface Document {
   name: string;
@@ -46,59 +50,18 @@ const DocumentPage: React.FC = () => {
 
       {/* Main Section */}
       <main className="p-6 mt-20">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold ml-56">All Documents</h2>
-          {/* Action Buttons */}
-          <div className="flex mr-56">
-            <Button
-              variant="default"
-              className="bg-blue-600"
-              onClick={addDocument}
-            >
-              Add
-            </Button>
-          </div>
+        <div className="text-center sm:text-5xl text-4xl font-bold">
+        <span className={`${caveat.className}`}>Make it <span className="text-blue-700">social!</span></span>
         </div>
-
-        {/* Document List */}
-        <div className="flex flex-col items-center gap-4">
-          {documents.length > 0 ? (
-            documents.map((doc, index) => (
-              <Link
-                href={`/document/${id1}`}
-                key={index}
-                className="flex justify-center w-full" // Ensure centering
-              >
-                <Card className="w-[63%] bg-white dark:bg-gray-800 shadow-md rounded-lg cursor-pointer hover:shadow-lg transition-shadow duration-200">
-                  <CardHeader className="flex justify-between px-4 py-2 mt-2">
-                    <div>
-                      <CardTitle className="font-light mb-2 text-lg text-blue-600">{doc.name}</CardTitle>
-                      <p className="text-sm text-gray-400">
-                        Created: {doc.createdDate} | {doc.createdTime}
-                      </p>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="px-4 pb-4 flex justify-end">
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="z-50"
-                      onClick={(e) => {
-                        // Stop the event from triggering the Link navigation
-                        e.preventDefault();
-                        e.stopPropagation();
-                        deleteDocument(index); // Proceed with the deletion
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))
-          ) : (
-            <p className="text-center text-gray-500">No documents available.</p>
-          )}
+        <div className="text-center sm:text-3xl text-2xl mt-4 font-lg text-gray-500">
+        <span className={`${caveat.className}`}>Connect, share, and engage with your social community</span>
+        </div>
+        <div className="flex mt-12 justify-center gap-x-10 text-center">
+          <Button className="p-4 bg-gray-800 text-white w-32 hover:bg-gray-600">Get Started</Button>
+          <Button className="p-4 bg-blue-600 text-white w-32 hover:bg-blue-500">Try it free</Button>
+        </div>
+        <div className="flex mt-16 sm:ml-48 ml-16 justify-center border border-gray-300 w-[70%] h-40 rounded-xl">
+          <span className="mt-16 text-gray-500">Empty area</span>
         </div>
       </main>
     </div>
